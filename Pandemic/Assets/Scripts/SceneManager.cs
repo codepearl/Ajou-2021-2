@@ -93,6 +93,7 @@ public class SceneManager : MonoBehaviour
     void SetCameraToSimulation()
     {
         camera.transform.position = new Vector3(0, 40, -10);
+        camera.GetComponent<Algorithm>().algo();
     }
 
     void SetCameraToGraph()
