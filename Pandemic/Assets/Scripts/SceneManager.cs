@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SceneManager : MonoBehaviour
 {
@@ -12,6 +13,78 @@ public class SceneManager : MonoBehaviour
     public GameObject SimulationScene;
     public GameObject GraphScene;
     public GameObject ResultScene;
+
+    public Button InitButton;
+    public Canvas InputUI;
+
+    public void PrevScene()
+    {
+        switch (mode)
+        {
+            case 0:
+                SetCameraToResult();
+                mode = 4;
+                
+                break;
+            case 1:
+                SetCameraToMain();
+                mode = 0;
+               
+                break;
+            case 2:
+                SetCameraToInput();
+                mode = 1;
+                InitButton.enabled = true;
+                //InputUI.enabled = true;
+                break;
+            case 3:
+                SetCameraToSimulation();
+                SimulationScene.GetComponent<CircleMaker>().init();
+                mode = 2;
+                InitButton.enabled = false;
+                break;
+            case 4:
+                SimulationScene.GetComponent<CircleMaker>().stop();
+                SetCameraToGraph();
+                mode = 3;
+                
+                break;
+        }
+    }
+
+    public void NextScene()
+    {
+        switch (mode)
+        {
+            case 0:
+                SetCameraToInput();
+                mode = 1;
+                InitButton.enabled = true;
+                //InputUI.enabled = true;
+                break;
+            case 1:
+                SetCameraToSimulation();
+                SimulationScene.GetComponent<CircleMaker>().init();
+                mode = 2;
+                InitButton.enabled = false;
+                //InputUI.enabled = false;
+                break;
+            case 2:
+                SimulationScene.GetComponent<CircleMaker>().stop();
+                SetCameraToGraph();
+                mode = 3;
+                break;
+            case 3:
+                SetCameraToResult();
+                mode = 4;
+                break;
+
+            case 4:
+                SetCameraToMain();
+                mode = 0;
+                break;
+        }
+    }
 
     void SetCameraToMain()
     {
@@ -36,45 +109,29 @@ public class SceneManager : MonoBehaviour
         camera.transform.position = new Vector3(0, 80, -10);
     }
 
+    void GetUI()
+    {
+        InputUI.GetComponent<Canvas>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         SetCameraToMain();
+        InitButton.enabled = false;
+        //InputUI.enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        /*
         if (Input.GetMouseButtonDown(0))
         {
-            switch (mode)
-            {
-                case 0:
-                    SetCameraToInput();
-                    mode = 1;
-                    break;
-                case 1:
-                    SetCameraToSimulation();
-                    SimulationScene.GetComponent<CircleMaker>().init();
-                    mode = 2;
-                    break;
-                case 2:
-                    SimulationScene.GetComponent<CircleMaker>().stop();
-                    SetCameraToGraph();
-                    mode = 3;
-                    break;
-                case 3:
-                    SetCameraToResult();
-                    mode = 4;
-                    break;
+            if (mode != 1)
+                NextScene();
 
-                case 4:
-                    SetCameraToMain();
-                    mode = 0;
-                    break;
-            }
-
-        }
+        }*/
 
     }
 }

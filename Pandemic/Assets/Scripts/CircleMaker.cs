@@ -16,7 +16,7 @@ public class CircleMaker : MonoBehaviour
     public void init()
     {
         currentCircle = 0;
-        targetCircle = 1000;
+        targetCircle = 5000; // 50000000;
         time = 1;
         days = 0;
         working = true;
@@ -56,12 +56,16 @@ public class CircleMaker : MonoBehaviour
                 days++;
                 if(targetCircle > currentCircle)
                 {
-                    circleList.Add(Instantiate(Circle, this.transform.position + new Vector3(Random.Range(-8.0f, 14.0f) * 0.1f, Random.Range(-10.0f, 15.0f) * 0.1f,-2), this.transform.rotation, this.transform) as GameObject);
-                    Debug.Log("make circle " + currentCircle);
-                    currentCircle++;
+                    //for(int i=0; i<1000; i++)
+                    {
+                        circleList.Add(Instantiate(Circle, this.transform.position + new Vector3(Random.Range(-8.0f, 17.0f) * 0.1f, Random.Range(-10.0f, 15.0f) * 0.1f, -2), this.transform.rotation, this.transform) as GameObject);
+                        Debug.Log("make circle " + currentCircle);
+                        currentCircle++;
+                    }
+                    
                 }
             }
-            time += 0.005f;
+            time += 0.03f;// 1.0f;// 0.005f;
         }
     }
 }
