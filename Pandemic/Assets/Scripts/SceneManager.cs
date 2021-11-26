@@ -17,6 +17,7 @@ public class SceneManager : MonoBehaviour
     public Button InitButton;
     public Canvas InputUI;
     public Canvas InputSceneCanvas;
+    public Canvas ResultSceneCanvas;
 
     public void PrevScene()
     {
@@ -24,6 +25,7 @@ public class SceneManager : MonoBehaviour
         {
             case 0:
                 SetCameraToResult();
+                ResultSceneCanvas.enabled = true;
                 mode = 4;
                 
                 break;
@@ -48,6 +50,7 @@ public class SceneManager : MonoBehaviour
             case 4:
                 SimulationScene.GetComponent<CircleMaker>().stop();
                 SetCameraToGraph();
+                ResultSceneCanvas.enabled = false;
                 mode = 3;
                 
                 break;
@@ -66,12 +69,8 @@ public class SceneManager : MonoBehaviour
                 InputSceneCanvas.enabled = true;
                 break;
             case 1:
-
-
                 InputUI.GetComponent<InputManager>().setVariable();
-                
                 SetCameraToSimulation();
-               
                 SimulationScene.GetComponent<CircleMaker>().init();
                 mode = 2;
                 InitButton.enabled = false;
@@ -85,11 +84,13 @@ public class SceneManager : MonoBehaviour
                 break;
             case 3:
                 SetCameraToResult();
+                ResultSceneCanvas.enabled = true;
                 mode = 4;
                 break;
 
             case 4:
                 SetCameraToMain();
+                ResultSceneCanvas.enabled = false;
                 mode = 0;
                 break;
         }
@@ -117,6 +118,7 @@ public class SceneManager : MonoBehaviour
     void SetCameraToResult()
     {
         camera.transform.position = new Vector3(0, 80, -10);
+        ResultScene.GetComponent<ResultManager>().updateText();
     }
 
     void GetUI()
@@ -128,7 +130,7 @@ public class SceneManager : MonoBehaviour
     void Start()
     {
         SetCameraToMain();
-        
+        ResultSceneCanvas.enabled = false;
         InputSceneCanvas.enabled = false;
         InitButton.enabled = false;
         //InputUI.enabled = false;
