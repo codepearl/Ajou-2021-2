@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Algorithm : MonoBehaviour
 {
+    GameObject sm;
 
     public int population = 50000000;
 
@@ -26,6 +27,12 @@ public class Algorithm : MonoBehaviour
     public int shotPerDay;
     public double preventionRate;
 
+    void setCircleMakerVariable()
+    {
+        sm = GameObject.Find("SimulationScene");
+        sm.GetComponent<CircleMaker>().targetCircle = numberOfInfections;
+    }
+
     public double norm(double mean, double stdDev)
     {
         System.Random rand = new System.Random(); //reuse this if you are generating many
@@ -45,6 +52,15 @@ public class Algorithm : MonoBehaviour
         int[] vaccinatedList = new int[3650];
         int[] deadList = new int[3650];
         int[] infectsPerDayList = new int[3650];
+
+        vaccinatedRate = 0;
+        infectionsRate = 0;
+        dayInfects = 0;
+        numberOfVaccinated = 0;
+        numberOfDeaths = 0;
+        numberOfInfections = 14;
+        threatingDay = 14;
+        day = 0;
 
 
         double mu_c, sigma_c, mu_s, sigma_s;
@@ -114,9 +130,10 @@ public class Algorithm : MonoBehaviour
             /// Console.WriteLine("{0}", numberOfInfections);
         }
 
-        Debug.Log("최종 감염자 : {0}" + numberOfInfections);
-        Debug.Log("백신 접종 : {0}" + numberOfVaccinated);
-        Debug.Log("생존자: {0}" + population);
+        Debug.Log("최종 감염자 : " + numberOfInfections);
+        Debug.Log("백신 접종 : " + numberOfVaccinated);
+        Debug.Log("생존자 : " + population);
+        setCircleMakerVariable();
     }
 
     // Start is called before the first frame update

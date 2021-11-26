@@ -16,6 +16,7 @@ public class SceneManager : MonoBehaviour
 
     public Button InitButton;
     public Canvas InputUI;
+    public Canvas InputSceneCanvas;
 
     public void PrevScene()
     {
@@ -29,12 +30,13 @@ public class SceneManager : MonoBehaviour
             case 1:
                 SetCameraToMain();
                 mode = 0;
-               
+                InputSceneCanvas.enabled = false;
                 break;
             case 2:
                 SetCameraToInput();
                 mode = 1;
                 InitButton.enabled = true;
+                InputSceneCanvas.enabled = true;
                 //InputUI.enabled = true;
                 break;
             case 3:
@@ -61,12 +63,19 @@ public class SceneManager : MonoBehaviour
                 mode = 1;
                 InitButton.enabled = true;
                 //InputUI.enabled = true;
+                InputSceneCanvas.enabled = true;
                 break;
             case 1:
+
+
+                InputUI.GetComponent<InputManager>().setVariable();
+                
                 SetCameraToSimulation();
+               
                 SimulationScene.GetComponent<CircleMaker>().init();
                 mode = 2;
                 InitButton.enabled = false;
+                InputSceneCanvas.enabled = false;
                 //InputUI.enabled = false;
                 break;
             case 2:
@@ -119,6 +128,8 @@ public class SceneManager : MonoBehaviour
     void Start()
     {
         SetCameraToMain();
+        
+        InputSceneCanvas.enabled = false;
         InitButton.enabled = false;
         //InputUI.enabled = false;
     }
