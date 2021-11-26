@@ -61,10 +61,10 @@ public class CircleMaker : MonoBehaviour
                 
                 if (targetCircle > p)
                 {
-                    p++;
-                    pt++;
+                    p+=200;
+                    pt+=200;
                     //for(int i=0; i<1000; i++)
-                    if(pt >= 500)
+                    if(pt >= 20000)
                     {
                         pt = 0;
                         circleList.Add(Instantiate(Circle, this.transform.position + new Vector3(Random.Range(-8.0f, 17.0f) * 0.1f, Random.Range(-10.0f, 15.0f) * 0.1f, -2), this.transform.rotation, this.transform) as GameObject);
@@ -74,7 +74,12 @@ public class CircleMaker : MonoBehaviour
 
                 }
                 else
+                {
                     working = false;
+                    p = targetCircle;
+                    transmissionValue.text = p.ToString();
+                }    
+                    
             //}
             //time += 0.03f;// 1.0f;// 0.005f;
             if(targetDays != -1)
