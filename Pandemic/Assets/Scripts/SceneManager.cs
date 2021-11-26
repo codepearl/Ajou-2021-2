@@ -14,10 +14,10 @@ public class SceneManager : MonoBehaviour
     public GameObject GraphScene;
     public GameObject ResultScene;
 
-    public Button InitButton;
     public Canvas InputUI;
     public Canvas InputSceneCanvas;
     public Canvas ResultSceneCanvas;
+    public Canvas SimulationSceneCanvas;
 
     public void PrevScene()
     {
@@ -37,18 +37,20 @@ public class SceneManager : MonoBehaviour
             case 2:
                 SetCameraToInput();
                 mode = 1;
-                InitButton.enabled = true;
                 InputSceneCanvas.enabled = true;
+                SimulationSceneCanvas.enabled = false;
+                SimulationScene.GetComponent<CircleMaker>().stop();
                 //InputUI.enabled = true;
                 break;
             case 3:
                 SetCameraToSimulation();
+                SimulationSceneCanvas.enabled = true;
                 SimulationScene.GetComponent<CircleMaker>().init();
                 mode = 2;
-                InitButton.enabled = false;
                 break;
             case 4:
-                SimulationScene.GetComponent<CircleMaker>().stop();
+                
+                
                 SetCameraToGraph();
                 ResultSceneCanvas.enabled = false;
                 mode = 3;
@@ -64,7 +66,6 @@ public class SceneManager : MonoBehaviour
             case 0:
                 SetCameraToInput();
                 mode = 1;
-                InitButton.enabled = true;
                 //InputUI.enabled = true;
                 InputSceneCanvas.enabled = true;
                 break;
@@ -73,13 +74,14 @@ public class SceneManager : MonoBehaviour
                 SetCameraToSimulation();
                 SimulationScene.GetComponent<CircleMaker>().init();
                 mode = 2;
-                InitButton.enabled = false;
                 InputSceneCanvas.enabled = false;
+                SimulationSceneCanvas.enabled = true;
                 //InputUI.enabled = false;
                 break;
             case 2:
                 SimulationScene.GetComponent<CircleMaker>().stop();
                 SetCameraToGraph();
+                SimulationSceneCanvas.enabled = false;
                 mode = 3;
                 break;
             case 3:
@@ -131,8 +133,8 @@ public class SceneManager : MonoBehaviour
     {
         SetCameraToMain();
         ResultSceneCanvas.enabled = false;
+        SimulationSceneCanvas.enabled = false;
         InputSceneCanvas.enabled = false;
-        InitButton.enabled = false;
         //InputUI.enabled = false;
     }
 
