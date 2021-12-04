@@ -37,6 +37,59 @@ namespace 알고리즘
             return dayVaccinatingList;
         }
 
+
+
+        public static double[,] CrossOver(double[,] dayVaccinatingList, int endDay)
+        {
+            // dayVaccinatingList를 4개로 복제하는 임시 코드
+            double[] dayVaccinatingLists = new int[4];
+            for (int i = 0; i < 4; i++)
+            {
+                dayVaccinatingLists[i] = dayVaccinatingList;
+            }
+
+
+            double[] childrenList = new int[24];            //crossover를 통해 만들어낼 24개의 자식 개체
+            int n = 0;          // childrenList에 sonList, daughterList를 넣기 위한 index
+
+            
+            for (int j = 0; j < 4; j++)         // 4개 list 조합하여 cross over
+            {
+                for (int k = 0; k < 4; k++)
+                    if (j != k)         // 자신을 제외한 나머지 요소와 매칭
+                    {
+                        double[,] sonList = new double[3, endDay];          // 첫 번째 자식 리스트 생성
+                        double[,] daughterList = new double[3, endDay];          // 두 번째 자식 리스트 생성
+
+                        int m = 0;
+                        
+                        while (m < endDay)          // 아들은 아빠의 3, 엄마의 2 / 딸은 엄마의 3, 아빠의 2를 닮음 (임시 crossover방식, 버그 없이 구현되면 변경 예정)
+                        {
+                            sonList[m] = dayVaccinatingLists[j, m];
+                            sonList[m + 1] = dayVaccinatingLists[j, m + 1];
+                            sonList[m + 2] = dayVaccinatingLists[j, m + 2];
+                            sonList[m + 3] = dayVaccinatingLists[k, m + 3];
+                            sonList[m + 4] = dayVaccinatingLists[k, m + 4];
+
+                            daughterList[m] = dayVaccinatingLists[k, m];
+                            daughterList[m + 1] = dayVaccinatingLists[k, m + 1];
+                            daughterList[m + 2] = dayVaccinatingLists[k, m + 2];
+                            daughterList[m + 3] = dayVaccinatingLists[j, m + 3];
+                            daughterList[m + 4] = dayVaccinatingLists[j, m + 4];
+
+                            m = m + 5;
+                        }
+
+                        childrenList[n] = sonList;          //자식 개체 append
+                        childrenList[n + 1] = daughterList;         //자식 개체 append
+                        n = n + 2;                        
+                    }
+                    
+            }
+
+            return childrenList;            //자식 개체들 반환
+        }
+
         public static int FitnessCheck(int generation, double[,] dayVaccinatingList)
         {
 
