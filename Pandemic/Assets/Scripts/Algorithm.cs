@@ -536,6 +536,7 @@ public class Algorithm : MonoBehaviour
         mu_s = 400000; // 백신 접종량 평균
         sigma_s = mu_s / 8;
         shotPerDay = (int)(norm(mu_s, sigma_s));
+        numberOfContacts = 30;
 
     }
 
