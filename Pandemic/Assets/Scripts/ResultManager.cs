@@ -15,6 +15,9 @@ public class ResultManager : MonoBehaviour
     public Text numberOfVaccinatedValue;
     public Text populationValue;
     public Text numberOfDeathsValue;
+    public Text fatalityRateValueChild;
+    public Text fatalityRateValueAdult;
+    public Text fatalityRateValueSenior;
 
     public void updateText()
     {
@@ -28,6 +31,9 @@ public class ResultManager : MonoBehaviour
         numberOfVaccinatedValue.text = mainCamera.GetComponent<Algorithm>().numberOfVaccinated.ToString();
         populationValue.text = mainCamera.GetComponent<Algorithm>().population.ToString();
         numberOfDeathsValue.text = (50000000 - mainCamera.GetComponent<Algorithm>().population).ToString();
+        fatalityRateValueChild.text = mainCamera.GetComponent<Algorithm>().fatalityRateList[0].ToString();
+        fatalityRateValueAdult.text = mainCamera.GetComponent<Algorithm>().fatalityRateList[1].ToString();
+        fatalityRateValueSenior.text = mainCamera.GetComponent<Algorithm>().fatalityRateList[2].ToString();
 
     }
 

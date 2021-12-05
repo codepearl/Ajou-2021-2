@@ -12,23 +12,16 @@ public class InputManager : MonoBehaviour
 
     public InputField transmissionRateField;
     public InputField fatalityRateField;
+    public InputField fatalityRateFieldChild;
+    public InputField fatalityRateFieldAdult;
+    public InputField fatalityRateFieldSenior;
     public InputField preventionRateField;
     public InputField shotPerDayField;
     public InputField numberOfContactsField;
 
-    public float variable1;
-    public float variable2;
-    public float variable3;
-    public float variable4;
-    public float variable5;
-
     public void Init()
     {
-        variable1 = 0;
-        variable2 = 0;
-        variable3 = 0;
-        variable4 = 0;
-        variable5 = 0;
+
     }
 
     public void setVariable()
@@ -64,13 +57,36 @@ public class InputManager : MonoBehaviour
             mainCamera.GetComponent<Algorithm>().numberOfContacts
                 = Convert.ToInt32(numberOfContactsField.text);
         }
+        //level2
+        if (!fatalityRateFieldChild.text.Equals(""))
+        {
+            Debug.Log("set fatalityRateFieldChild : " + Convert.ToDouble(fatalityRateFieldChild.text));
+            mainCamera.GetComponent<Algorithm>().fatalityRateList[0]
+                = Convert.ToDouble(fatalityRateFieldChild.text);
+        }
+        if (!fatalityRateFieldAdult.text.Equals(""))
+        {
+            Debug.Log("set fatalityRateFieldAdult : " + Convert.ToDouble(fatalityRateFieldAdult.text));
+            mainCamera.GetComponent<Algorithm>().fatalityRateList[1]
+                = Convert.ToDouble(fatalityRateFieldAdult.text);
+        }
+        if (!fatalityRateFieldSenior.text.Equals(""))
+        {
+            Debug.Log("set fatalityRateFieldSenior : " + Convert.ToDouble(fatalityRateFieldSenior.text));
+            mainCamera.GetComponent<Algorithm>().fatalityRateList[2]
+                = Convert.ToDouble(fatalityRateFieldSenior.text);
+        }
     }
     // Start is called before the first frame update
     void Start()
     {
         Init();
         transmissionRateField = GameObject.Find("transmissionRateField").GetComponent<InputField>();
-        fatalityRateField = GameObject.Find("fatalityRateField").GetComponent<InputField>();
+        //level1
+        //fatalityRateField = GameObject.Find("fatalityRateField").GetComponent<InputField>();
+        fatalityRateFieldChild = GameObject.Find("fatalityRateFieldChild").GetComponent<InputField>();
+        fatalityRateFieldAdult = GameObject.Find("fatalityRateFieldAdult").GetComponent<InputField>();
+        fatalityRateFieldSenior = GameObject.Find("fatalityRateFieldSenior").GetComponent<InputField>();
         preventionRateField = GameObject.Find("preventionRateField").GetComponent<InputField>();
         shotPerDayField = GameObject.Find("shotPerDayField").GetComponent<InputField>();
         numberOfContactsField = GameObject.Find("numberOfContactsField").GetComponent<InputField>();
