@@ -41,18 +41,40 @@ namespace 알고리즘
         }
 
 
+        //public static string[] Selection(double[,] dayVaccinatingLists)         // 32개 개체(dayVaccinatingList)를 받아서 
+        //{
+        //    string[] top4VaccinationList = new string[4];
+
+        //    foreach (double i in dayVaccinatingLists)
+        //    {
+        //        dayVaccinatingLists[i] 
+        //    }
+        //}
+
+        //public static double[,] Mutation(double[,] dayVaccinatingList)
+        //{
+        //    // dayVaccinatingList를 4개로 복제하는 임시 코드
+        //    string[] dayVaccinatingLists = new string[4];
+        //    for (int i = 0; i < 4; i++)
+        //    {
+        //        dayVaccinatingLists[i] = dayVaccinatingList;
+        //    }
+
+
+        //}
+
 
         public static double[,] CrossOver(double[,] dayVaccinatingList, int endDay)
         {
             // dayVaccinatingList를 4개로 복제하는 임시 코드
-            double[] dayVaccinatingLists = new int[4];
+            string[] dayVaccinatingLists = new string[4];
             for (int i = 0; i < 4; i++)
             {
                 dayVaccinatingLists[i] = dayVaccinatingList;
             }
 
 
-            double[] childrenList = new int[24];            //crossover를 통해 만들어낼 24개의 자식 개체
+            int[] childrenList = new int[24];            //crossover를 통해 만들어낼 24개의 자식 개체
             int n = 0;          // childrenList에 sonList, daughterList를 넣기 위한 index
 
             
@@ -92,6 +114,8 @@ namespace 알고리즘
 
             return childrenList;            //자식 개체들 반환
         }
+
+        
 
         public static int FitnessCheck(int generation, double[,] dayVaccinatingList)
         {
@@ -443,6 +467,7 @@ namespace 알고리즘
 
             return population;
         }
+
 
         static void Main(string[] args)
         {
