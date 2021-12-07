@@ -9,15 +9,13 @@ namespace 알고리즘
     {
         public class dayVaccinating
         {
-            public double child;
-            public double adult;
-            public double senior;
+            public double[] howOldAreYou = new double[3]
 
             public dayVaccinating()
             {
-                child = 1;
-                adult = 2;
-                senior = 3;
+                howOldAreYou[0] = 0; // child
+                howOldAreYou[1] = 0; // adult
+                howOldAreYou[2] = 0; // senior
             }
         };
 
@@ -39,11 +37,11 @@ namespace 알고리즘
         public class wrapper
         {
             public dayVaccinatingList d;
-            public int p;
+            public int population;
             wrapper()
             {
                 d = new dayVaccinatingList();
-                p = 3;
+                population = 3;
             }
         }
 
@@ -157,8 +155,10 @@ namespace 알고리즘
 
         
 
-        public static int FitnessCheck(int generation, double[,] dayVaccinatingList)
+        public static int FitnessCheck(int generation, dayVaccinatingList d)
         {
+
+            d.a[day].howOldAreYou[i]
 
             //// 인구 관련 설정 변수 ////
 
