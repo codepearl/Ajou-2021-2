@@ -7,6 +7,35 @@ namespace 알고리즘
 {
     class Program
     {
+        public class dayVaccinating
+        {
+            public double child;
+            public double adult;
+            public double senior;
+
+            public dayVaccinating()
+            {
+                child = 1;
+                adult = 2;
+                senior = 3;
+            }
+        };
+
+        public class dayVaccinatingList
+        {
+            public dayVaccinating[] a;
+
+            public dayVaccinatingList()
+            {
+                a = new dayVaccinating[3650];
+
+                for (int i = 0; i < a.Length; i++)
+                {
+                    a[i] = new dayVaccinating();
+                }
+            }
+        };
+
         public static double norm(double mean, double stdDev)
         {
             Random rand = new Random(); //reuse this if you are generating many
