@@ -36,6 +36,17 @@ namespace 알고리즘
             }
         };
 
+        public class wrapper
+        {
+            public dayVaccinatingList d;
+            public int p;
+            wrapper()
+            {
+                d = new dayVaccinatingList();
+                p = 3;
+            }
+        }
+
         public static double norm(double mean, double stdDev)
         {
             Random rand = new Random(); //reuse this if you are generating many
@@ -332,9 +343,6 @@ namespace 알고리즘
                     numberOfVaccinatedList[i] -= dayDeathsList[i];
                     numberofVaccinatedInfectionsList[i] -= dayDeathsList[i];
                     popList[i] -= dayDeathsList[i];
-
-                    if (popList[i] < 0)
-                        popList[i] = 0;
 
                     dayCount = 1;
                     for (int j = dayDeathsList[i]; j < 0; j = j - rand.Next(0, Math.Max(0, (int)j)))
