@@ -9,7 +9,7 @@ namespace 알고리즘
     {
         public class dayVaccinating
         {
-            public double[] howOldAreYou = new double[3]
+            public double[] howOldAreYou = new double[3];
 
             public dayVaccinating()
             {
@@ -41,8 +41,38 @@ namespace 알고리즘
             wrapper()
             {
                 d = new dayVaccinatingList();
-                population = 3;
+                population = 0;
             }
+
+            wrapper[] wrapperList;
+        }
+
+        public static wrapper[] selection(wrapper[] w, int select) // 서재은 작품
+        {
+            wrapper[] topTeer;
+            wrapper movement;
+            topTeer = new wrapper[select];
+            for (int i = 0; i < w.Length; i++)
+            {
+                movement = w[i];
+
+                for (int j = 0; j < select; j++)
+                {
+                    if (topTeer[j] == null)
+                        topTeer[j] = movement;
+                    else if (topTeer[j].population < movement.population)
+                    {
+                        if (j == (select - 1))
+                            topTeer[j] = movement;
+                        else
+                        {
+                            topTeer[j] = topTeer[j + 1];
+                            topTeer[j] = movement;
+                        }
+                    }
+                }
+            }
+            return topTeer;
         }
 
         public static double norm(double mean, double stdDev)
@@ -57,11 +87,13 @@ namespace 알고리즘
             return randNormal;
         }
 
-        public static double[,] FirstVaccinatingCreate(int endDay)
+        public static dayVaccinatingList FirstVaccinatingCreate(int endDay)
         {
             // GA의 기본적인 기본 //
 
-            double[,] dayVaccinatingList = new double[3, endDay]; // 날짜별 백신 접종 비율 리스트
+
+
+            dayVaccinatingList VaccineScheduleList = new dayVaccinatingList(); // 날짜별 백신 접종 비율 리스트
 
             for (int i = 0; i < endDay; i++) // 날짜별 백신 접종 비율 배열 생성
             {
@@ -70,12 +102,12 @@ namespace 알고리즘
                 double adultVacRate = rand.Next(1000 - (int)(youngVacRate * 1000)) / (double)1000;
                 double oldVacRate = 1 - (youngVacRate + adultVacRate);
 
-                dayVaccinatingList[0, i] = youngVacRate;
-                dayVaccinatingList[1, i] = adultVacRate;
-                dayVaccinatingList[2, i] = oldVacRate;
+                VaccineScheduleList.a[i].howOldAreYou[0] = youngVacRate;
+                VaccineScheduleList.a[i].howOldAreYou[0] = adultVacRate;
+                VaccineScheduleList.a[i].howOldAreYou[0] = oldVacRate;
             }
 
-            return dayVaccinatingList;
+            return VaccineScheduleList;
         }
 
 
@@ -115,7 +147,7 @@ namespace 알고리즘
             int[] childrenList = new int[24];            //crossover를 통해 만들어낼 24개의 자식 개체
             int n = 0;          // childrenList에 sonList, daughterList를 넣기 위한 index
 
-            
+
             for (int j = 0; j < 4; j++)         // 4개 list 조합하여 cross over
             {
                 for (int k = 0; k < 4; k++)
@@ -125,7 +157,7 @@ namespace 알고리즘
                         double[,] daughterList = new double[3, endDay];          // 두 번째 자식 리스트 생성
 
                         int m = 0;
-                        
+
                         while (m < endDay)          // 아들은 아빠의 3, 엄마의 2 / 딸은 엄마의 3, 아빠의 2를 닮음 (임시 crossover방식, 버그 없이 구현되면 변경 예정)
                         {
                             sonList[m] = dayVaccinatingLists[j, m];
@@ -145,20 +177,20 @@ namespace 알고리즘
 
                         childrenList[n] = sonList;          //자식 개체 append
                         childrenList[n + 1] = daughterList;         //자식 개체 append
-                        n = n + 2;                        
+                        n = n + 2;
                     }
-                    
+
             }
 
             return childrenList;            //자식 개체들 반환
         }
 
-        
+
 
         public static int FitnessCheck(int generation, dayVaccinatingList d)
         {
 
-            d.a[day].howOldAreYou[i]
+
 
             //// 인구 관련 설정 변수 ////
 
@@ -265,12 +297,14 @@ namespace 알고리즘
 
 
             //// 생성 ////
-            double[,] VaccineScheduleList;
+
+
+            dayVaccinatingList VaccineScheduleList;
 
             if (generation == 0)
                 VaccineScheduleList = FirstVaccinatingCreate(endDay);
             else
-                VaccineScheduleList = dayVaccinatingList;
+                VaccineScheduleList = d;
 
 
 
@@ -373,7 +407,7 @@ namespace 알고리즘
                 // Console.Write("백신 접종량 : ");
                 for (int i = 0; i < 3; i++)
                 {
-                    shotPerDayList[i] = (int)(shotPerDay * VaccineScheduleList[i, day]);
+                    shotPerDayList[i] = (int)(shotPerDay * VaccineScheduleList.a[day].howOldAreYou[i]);
 
                     reallyshot = (int)(shotPerDayList[i] * preventionRate * (1 - vaccinatedRate) * Math.Max(infectionsRate, 0.01));
                     if (reallyshot < 0)
@@ -532,6 +566,4 @@ namespace 알고리즘
             Console.WriteLine("구동시간 : " + elapsedSecond + "초");
         }
     }
-
-}
 }
