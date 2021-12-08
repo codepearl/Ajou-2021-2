@@ -18,6 +18,7 @@ public class SceneManager : MonoBehaviour
     public Canvas InputSceneCanvas;
     public Canvas ResultSceneCanvas;
     public Canvas SimulationSceneCanvas;
+    public Canvas GraphCanvas;
 
     public void PrevScene()
     {
@@ -40,17 +41,18 @@ public class SceneManager : MonoBehaviour
                 InputSceneCanvas.enabled = true;
                 SimulationSceneCanvas.enabled = false;
                 SimulationScene.GetComponent<CircleMaker>().stop();
+                
                 //InputUI.enabled = true;
                 break;
             case 3:
                 SetCameraToSimulation();
+                GraphCanvas.enabled = false;
                 SimulationSceneCanvas.enabled = true;
                 SimulationScene.GetComponent<CircleMaker>().init();
                 mode = 2;
                 break;
             case 4:
-                
-                
+
                 SetCameraToGraph();
                 ResultSceneCanvas.enabled = false;
                 mode = 3;
@@ -86,6 +88,7 @@ public class SceneManager : MonoBehaviour
                 break;
             case 3:
                 SetCameraToResult();
+                GraphCanvas.enabled = false;
                 ResultSceneCanvas.enabled = true;
                 mode = 4;
                 break;
@@ -112,6 +115,7 @@ public class SceneManager : MonoBehaviour
     void SetCameraToGraph()
     {
         camera.transform.position = new Vector3(0, 60, -10);
+        GraphCanvas.enabled = true;
     }
 
     void SetCameraToInput()
@@ -136,6 +140,7 @@ public class SceneManager : MonoBehaviour
         ResultSceneCanvas.enabled = false;
         SimulationSceneCanvas.enabled = false;
         InputSceneCanvas.enabled = false;
+        GraphCanvas.enabled = false;
         //InputUI.enabled = false;
     }
 
