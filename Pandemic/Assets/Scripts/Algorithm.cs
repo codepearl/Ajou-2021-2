@@ -22,8 +22,13 @@ public class Algorithm : MonoBehaviour
     public int numberOfInfections = 14;
     public int threatingDay = 14;
 
+    public int[] graphRecord = new int[3650];
 
+    public int[] popList;
     public int day = 0;
+
+    public int[] dayinfectsList = new int[3]; // 백신 미접종자에 대한 감염자 수
+    public int[] dayVaccinatedInfectsList = new int[3]; // 백신 접종자에 대한 감염자 수
 
     public int numberOfContacts = 30;
 
@@ -212,7 +217,7 @@ public class Algorithm : MonoBehaviour
         double adultRate = 0.587; // 청장년 초기 비율 (20대 ~ 50대)
         double oldRate = 1 - (youngRate + adultRate); // 노인 초기 비율 (50대 이상)
 
-        int[] popList = new int[3]; // 각 연령대별 인구수 배열
+        // 각 연령대별 인구수 배열
 
         popList[0] = (int)(population * youngRate); // 미성년자 인구수 초기설정
         popList[1] = (int)(population * adultRate); // 청장년 인구수 초기설정
@@ -238,13 +243,11 @@ public class Algorithm : MonoBehaviour
 
         numberOfInfections = 14; // 초기 감염자 숫자
 
-        int[] dayinfectsList = new int[3]; // 백신 미접종자에 대한 감염자 수
         for (int i = 0; i < 2; i++)
             dayinfectsList[i] = (int)(numberOfInfections * popRateList[i]);
         dayinfectsList[2] = numberOfInfections - (dayinfectsList[0] + dayinfectsList[1]); // 노인 하루 감염자 수
 
-        int[] dayVaccinatedInfectsList = new int[3]; // 백신 접종자에 대한 감염자 수
-        for (int i = 0; i < 3; i++)
+       for (int i = 0; i < 3; i++)
             dayVaccinatedInfectsList[i] = 0;
 
 
@@ -318,8 +321,8 @@ public class Algorithm : MonoBehaviour
             mu_s = (popList[1] - numberofInfectionsList[1] - numberofVaccinatedInfectionsList[1]) * vaccineCost; // 백신 접종량 평균
             sigma_s = mu_s / 8;
 
-            numberOfContacts = (int)norm(mu_c, sigma_c); // 접촉자 수 선정
-            numberOfContacts = (int)(numberOfContacts * (1 - Math.Pow(infectionsRate, 0.05)) * Math.Pow(Math.Max(1, day - 1500), 0.01) + 3);
+            //numberOfContacts = (int)norm(mu_c, sigma_c); // 접촉자 수 선정
+            //numberOfContacts = (int)(numberOfContacts * (1 - Math.Pow(infectionsRate, 0.05)) * Math.Pow(Math.Max(1, day - 1500), 0.01) + 3);
 
 
             // print(numberOfContacts, infectionsRate, numberOfInfections)
@@ -399,7 +402,7 @@ public class Algorithm : MonoBehaviour
 
 
             //// 백신 접종 단계 ////
-            preventionRate = rand.Next(850, 950) / (double)1000;
+            
             shotPerDay = (int)(norm(mu_s, sigma_s));
 
             int reallyshot;
@@ -552,13 +555,16 @@ public class Algorithm : MonoBehaviour
         startPop = 50000000; // 인구수 설정
         population = startPop;
         //// 인구 관련 설정 변수 ////
+        ///
+        for (int i = 0; i < 3; i++)
+            graphRecord[i] = 0;
 
 
         double youngRate = 0.167; // 미성년자 초기 비율 (10대 이하)
         double adultRate = 0.587; // 청장년 초기 비율 (20대 ~ 50대)
         double oldRate = 1 - (youngRate + adultRate); // 노인 초기 비율 (50대 이상)
 
-        int[] popList = new int[3]; // 각 연령대별 인구수 배열
+        // 각 연령대별 인구수 배열
 
         popList[0] = (int)(population * youngRate); // 미성년자 인구수 초기설정
         popList[1] = (int)(population * adultRate); // 청장년 인구수 초기설정
@@ -584,12 +590,10 @@ public class Algorithm : MonoBehaviour
 
         numberOfInfections = 14; // 초기 감염자 숫자
 
-        int[] dayinfectsList = new int[3]; // 백신 미접종자에 대한 감염자 수
         for (int i = 0; i < 2; i++)
             dayinfectsList[i] = (int)(numberOfInfections * popRateList[i]);
         dayinfectsList[2] = numberOfInfections - (dayinfectsList[0] + dayinfectsList[1]); // 노인 하루 감염자 수
 
-        int[] dayVaccinatedInfectsList = new int[3]; // 백신 접종자에 대한 감염자 수
         for (int i = 0; i < 3; i++)
             dayVaccinatedInfectsList[i] = 0;
 
@@ -664,8 +668,8 @@ public class Algorithm : MonoBehaviour
             mu_s = (popList[1] - numberofInfectionsList[1] - numberofVaccinatedInfectionsList[1]) * vaccineCost; // 백신 접종량 평균
             sigma_s = mu_s / 8;
 
-            numberOfContacts = (int)norm(mu_c, sigma_c); // 접촉자 수 선정
-            numberOfContacts = (int)(numberOfContacts * (1 - Math.Pow(infectionsRate, 0.05)) * Math.Pow(Math.Max(1, day - 1500), 0.01) + 3);
+            //numberOfContacts = (int)norm(mu_c, sigma_c); // 접촉자 수 선정
+            //numberOfContacts = (int)(numberOfContacts * (1 - Math.Pow(infectionsRate, 0.05)) * Math.Pow(Math.Max(1, day - 1500), 0.01) + 3);
 
 
             // print(numberOfContacts, infectionsRate, numberOfInfections)
@@ -745,7 +749,7 @@ public class Algorithm : MonoBehaviour
 
 
             //// 백신 접종 단계 ////
-            preventionRate = rand.Next(850, 950) / (double)1000;
+
             shotPerDay = (int)(norm(mu_s, sigma_s));
 
             int reallyshot;
@@ -857,6 +861,7 @@ public class Algorithm : MonoBehaviour
                 infectsPerDayList[i, day] = dayinfectsList[i]; // 하루 미접종자 감염자 수 기록
                 vaccinatedinfectsPerDayList[i, day] = dayVaccinatedInfectsList[i]; // 하루 접종자 감염자 수 기록
                 infectedRecord[i, day] = numberofInfectionsList[i] + numberofVaccinatedInfectionsList[i]; // 총 감염자 수 기록
+                graphRecord[day] += infectedRecord[i, day]; //그래프를 위한 하루 감염자 수 기록
                 deadRecord[i, day] = startPop - popList[i]; // 사망자 기록
             }
 
@@ -885,12 +890,13 @@ public class Algorithm : MonoBehaviour
             //Debug.Log("최종 감염자 : {0}" + numberOfInfections);
             //Debug.Log("생존자: {0}" + population);
         }
-        //Debug.Log("최종 날짜 : {0}" + day);
-        //Debug.Log("최종 감염자 : {0}" + numberOfInfections);
-        //Debug.Log("백신 접종 : {0}" + numberOfVaccinated);
-        //Debug.Log("생존자: {0}" + population);
+        Debug.Log("최종 날짜 : {0}" + day);
+        Debug.Log("최종 감염자 : {0}" + numberOfInfections);
+        Debug.Log("백신 접종 : {0}" + numberOfVaccinated);
+        Debug.Log("생존자: {0}" + population);
 
         setCircleMakerVariableLevel2();
+
     }
 
 
@@ -1095,6 +1101,14 @@ public class Algorithm : MonoBehaviour
     void Start()
     {
         System.Random rand = new System.Random();
+        popList = new int[3];
+        double youngRate = 0.167; // 미성년자 초기 비율 (10대 이하)
+        double adultRate = 0.587; // 청장년 초기 비율 (20대 ~ 50대)
+        double oldRate = 1 - (youngRate + adultRate); // 노인 초기 비율 (50대 이상)
+
+        popList[0] = (int)(population * youngRate); // 미성년자 인구수 초기설정
+        popList[1] = (int)(population * adultRate); // 청장년 인구수 초기설정
+        popList[2] = (int)(population * oldRate); // 노인 인구수 초기설정
 
         fatalityRateList[0] = 0.0001; // 미성년자 치명률
         fatalityRateList[1] = 0.00104; // 청장년 치명률

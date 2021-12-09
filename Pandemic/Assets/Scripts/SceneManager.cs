@@ -14,6 +14,8 @@ public class SceneManager : MonoBehaviour
     public GameObject GraphScene;
     public GameObject ResultScene;
 
+    public GameObject wg;
+
     public Canvas InputUI;
     public Canvas InputSceneCanvas;
     public Canvas ResultSceneCanvas;
@@ -114,6 +116,8 @@ public class SceneManager : MonoBehaviour
 
     void SetCameraToGraph()
     {
+        wg.GetComponent<Window_Graph>().setData(camera.GetComponent<Algorithm>().graphRecord);
+        wg.GetComponent<Window_Graph>().ShowGraph(wg.GetComponent<Window_Graph>().valueList);
         camera.transform.position = new Vector3(0, 60, -10);
         GraphCanvas.enabled = true;
     }

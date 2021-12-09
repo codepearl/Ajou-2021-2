@@ -10,12 +10,29 @@ public class Window_Graph : MonoBehaviour
     [SerializeField] private Sprite circleSprite;
     private RectTransform graphContainer;
 
+    List<GameObject> graphList = new List<GameObject>();
+    public List<int> valueList = new List<int>();
+    public int measure = 150;
+
+    public void setData(int[] infectRecord)
+    {
+        graphList.Clear();
+        valueList.Clear();
+        //foreach(int i in infectRecord)
+        for(int i=0; i<=infectRecord.Length; i+= measure)
+        {
+            valueList.Add(infectRecord[i]);
+            Debug.Log("infectRecord " + i + "  " + infectRecord[i]);
+        }
+        
+    }
+
     private void Awake()
     {
         graphContainer = transform.Find("graphContainer").GetComponent<RectTransform>();
 
-        List<int> valueList = new List<int>() { 5, 170, 5, 6, 170, 5, 7, 8, 45, 17, 18, 19, 33 };
-        ShowGraph(valueList);
+        //List<int> valueList = new List<int>() { 5, 170, 5, 6, 170, 5, 7, 8, 45, 17, 18, 19, 33 };
+        //ShowGraph(valueList);
         //해당 임의의 값이 아닌 반환값을 넣어주면 됨.
     }
 
@@ -32,10 +49,10 @@ public class Window_Graph : MonoBehaviour
         return gameObject;
     }
 
-    private void ShowGraph(List<int> valueList)
+    public void ShowGraph(List<int> valueList)
     {
         float graphHeight = graphContainer.sizeDelta.y;
-        float yMaximum = 200; //Y축 범위 (값이 이 범위안에 있어야 그래프가 정상적으로 출력됨)
+        float yMaximum = 1000; //Y축 범위 (값이 이 범위안에 있어야 그래프가 정상적으로 출력됨)
         float xSize = 30f; //X축 범위
 
         GameObject lastCircleGameObject = null;
@@ -54,7 +71,9 @@ public class Window_Graph : MonoBehaviour
 
     private void CreateDotConnection(Vector2 dotPositionA, Vector2 dotPositionB)
     {
+        
         GameObject gameObject = new GameObject("dotConnection", typeof(Image));
+        graphList.Add(gameObject);
         gameObject.transform.SetParent(graphContainer, false);
         gameObject.GetComponent<Image>().color = new Color(1, 1, 1, .5f);
         RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
