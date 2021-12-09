@@ -16,10 +16,11 @@ public class InputManager : MonoBehaviour
     public InputField fatalityRateFieldAdult;
     public InputField fatalityRateFieldSenior;
     public InputField preventionRateField;
-    public InputField shotPerDayField;
     public InputField numberOfContactsField;
     public InputField vaccinatedFatalityRateField;
     public InputField developPeriodField;
+    public InputField vaccineCostField;
+    public InputField threatingDayField;
 
     public void Init()
     {
@@ -46,12 +47,6 @@ public class InputManager : MonoBehaviour
             Debug.Log("set preventionRate : " + Convert.ToDouble(preventionRateField.text));
             mainCamera.GetComponent<Algorithm>().preventionRate
                 = Convert.ToDouble(preventionRateField.text);
-        }
-        if (!shotPerDayField.text.Equals(""))
-        {
-            Debug.Log("set shotPerDay : " + Convert.ToInt32(shotPerDayField.text));
-            mainCamera.GetComponent<Algorithm>().shotPerDay
-                = Convert.ToInt32(shotPerDayField.text);
         }
         if (!numberOfContactsField.text.Equals(""))
         {
@@ -86,9 +81,21 @@ public class InputManager : MonoBehaviour
         }
         if (!developPeriodField.text.Equals(""))
         {
-            Debug.Log("set vaccinatedFatalityRateField : " + Convert.ToInt32(developPeriodField.text));
+            Debug.Log("set developPeriodField : " + Convert.ToInt32(developPeriodField.text));
             mainCamera.GetComponent<Algorithm>().developPeriod
                 = Convert.ToInt32(developPeriodField.text);
+        }
+        if (!vaccineCostField.text.Equals(""))
+        {
+            Debug.Log("set vaccineCostField : " + Convert.ToDouble(vaccineCostField.text));
+            mainCamera.GetComponent<Algorithm>().vaccineCost
+                = Convert.ToDouble(vaccineCostField.text);
+        }
+        if (!threatingDayField.text.Equals(""))
+        {
+            Debug.Log("set threatingDayField : " + Convert.ToInt32(threatingDayField.text));
+            mainCamera.GetComponent<Algorithm>().threatingDay
+                = Convert.ToInt32(threatingDayField.text);
         }
     }
     // Start is called before the first frame update
@@ -102,10 +109,11 @@ public class InputManager : MonoBehaviour
         fatalityRateFieldAdult = GameObject.Find("fatalityRateFieldAdult").GetComponent<InputField>();
         fatalityRateFieldSenior = GameObject.Find("fatalityRateFieldSenior").GetComponent<InputField>();
         preventionRateField = GameObject.Find("preventionRateField").GetComponent<InputField>();
-        shotPerDayField = GameObject.Find("shotPerDayField").GetComponent<InputField>();
         numberOfContactsField = GameObject.Find("numberOfContactsField").GetComponent<InputField>();
         vaccinatedFatalityRateField = GameObject.Find("vaccinatedFatalityRateField").GetComponent<InputField>();
         developPeriodField = GameObject.Find("developPeriodField").GetComponent<InputField>();
+        vaccineCostField = GameObject.Find("vaccineCostField").GetComponent<InputField>();
+        threatingDayField = GameObject.Find("threatingDayField").GetComponent<InputField>();
 
         //initButton = GameObject.Find("initButton").GetComponent<Button>();
         //nextButton = GameObject.Find("nextButton").GetComponent<Button>();

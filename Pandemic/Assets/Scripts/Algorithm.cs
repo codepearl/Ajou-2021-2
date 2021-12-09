@@ -20,7 +20,7 @@ public class Algorithm : MonoBehaviour
     public int numberOfVaccinated = 0;
     public int numberOfDeaths = 0;
     public int numberOfInfections = 14;
-    int threatingDay = 14;
+    public int threatingDay = 14;
 
 
     public int day = 0;
@@ -263,7 +263,7 @@ public class Algorithm : MonoBehaviour
         numberOfInfections = 14;
         day = 0;
 
-        threatingDay = 14; // 치료 기간
+        //threatingDay = 14; // 치료 기간
 
 
 
