@@ -29,7 +29,7 @@ public class Algorithm : MonoBehaviour
 
     public int shotPerDay;
     public double preventionRate;
-    public double vaccinatedTransRate;
+    public double vaccinatedTransRate = (1 - 0.2);
 
     public double[] fatalityRateList = new double[3]; // 각 인구별 치명률 배열
 
@@ -37,7 +37,7 @@ public class Algorithm : MonoBehaviour
 
     public int[] numberOfVaccinatedList = new int[3]; // 연령별 백신 접종자 수
 
-    public double vaccinatedFatalityRate = 0.02; // 백신 맞았을 경우에 치명률
+    public double vaccinatedFatalityRate = (1 - 0.02); // 백신 맞았을 경우에 치명률
 
     public class dayVaccinating
     {
@@ -350,12 +350,14 @@ public class Algorithm : MonoBehaviour
             {
                 dayDeathsList[i] = (int)(numberofInfectionsList[i] * fatalityRateList[i]);
                 numberofInfectionsList[i] -= dayDeathsList[i];
+
+
                 popList[i] -= dayDeathsList[i];
 
-                int dayCount = 0;
+                int dayCount = 1;
                 for (int j = dayDeathsList[i]; j < 0; j = j - rand.Next(0, Math.Max(0, (int)j)))
                 {
-                    if (dayCount == threatingDay - 1)
+                    if (dayCount == threatingDay - 1 || dayCount == day)
                     {
                         dayCount = 0;
                     }
@@ -370,7 +372,7 @@ public class Algorithm : MonoBehaviour
                     dayCount = dayCount + 1;
                 }
 
-                dayDeathsList[i] = (int)(numberofVaccinatedInfectionsList[i] * fatalityRateList[i] * (1 - vaccinatedFatalityRate));
+                dayDeathsList[i] = (int)(numberofVaccinatedInfectionsList[i] * fatalityRateList[i] * vaccinatedFatalityRate);
                 numberOfVaccinatedList[i] -= dayDeathsList[i];
                 numberofVaccinatedInfectionsList[i] -= dayDeathsList[i];
                 popList[i] -= dayDeathsList[i];
@@ -378,7 +380,7 @@ public class Algorithm : MonoBehaviour
                 dayCount = 1;
                 for (int j = dayDeathsList[i]; j < 0; j = j - rand.Next(0, Math.Max(0, (int)j)))
                 {
-                    if (dayCount == threatingDay - 1)
+                    if (dayCount == threatingDay - 1 || dayCount == day)
                     {
                         dayCount = 1;
                     }
@@ -440,7 +442,9 @@ public class Algorithm : MonoBehaviour
                     if (dayCount == threatingDay - 1 || dayCount == day)
                     {
                         dayCount = 0;
+                        continue;
                     }
+
                     infectsPerDayList[i, day - dayCount] -= j;
                     vaccinatedinfectsPerDayList[i, day - dayCount] += j;
 
@@ -473,17 +477,14 @@ public class Algorithm : MonoBehaviour
                 if (totalInfected > 100)
                     for (int i = 0; i < 3; i++) // 연령별 감염자 치료날짜 이후 비감염자 됨
                     {
-                        if (day > threatingDay)
-                        {
+                        numberofInfectionsList[i] -= infectsPerDayList[i, day - threatingDay];
+                        if (numberofInfectionsList[i] < 0)
+                            numberofInfectionsList[i] = 0;
 
-                            numberofInfectionsList[i] -= infectsPerDayList[i, day - threatingDay];
-                            if (numberofInfectionsList[i] < 0)
-                                numberofInfectionsList[i] = 0;
+                        numberofVaccinatedInfectionsList[i] -= vaccinatedinfectsPerDayList[i, day - threatingDay];
+                        if (numberofVaccinatedInfectionsList[i] < 0)
+                            numberofVaccinatedInfectionsList[i] = 0;
 
-                            numberofVaccinatedInfectionsList[i] -= vaccinatedinfectsPerDayList[i, day - threatingDay];
-                            if (numberofVaccinatedInfectionsList[i] < 0)
-                                numberofVaccinatedInfectionsList[i] = 0;
-                        }
                         // Console.Write(numberofInfectionsList[i] + " ");
                         // Console.Write(numberofVaccinatedInfectionsList[i] + " ");
                     }
@@ -608,7 +609,7 @@ public class Algorithm : MonoBehaviour
         numberOfInfections = 14;
         day = 0;
 
-        threatingDay = 14; // 치료 기간
+        //threatingDay = 14; // 치료 기간
 
 
 
@@ -695,14 +696,16 @@ public class Algorithm : MonoBehaviour
             {
                 dayDeathsList[i] = (int)(numberofInfectionsList[i] * fatalityRateList[i]);
                 numberofInfectionsList[i] -= dayDeathsList[i];
+
+
                 popList[i] -= dayDeathsList[i];
 
                 int dayCount = 1;
                 for (int j = dayDeathsList[i]; j < 0; j = j - rand.Next(0, Math.Max(0, (int)j)))
                 {
-                    if (dayCount == threatingDay - 1)
+                    if (dayCount == threatingDay - 1 || dayCount == day)
                     {
-                        dayCount = 1;
+                        dayCount = 0;
                     }
                     infectsPerDayList[i, day - dayCount] -= j;
 
@@ -715,7 +718,7 @@ public class Algorithm : MonoBehaviour
                     dayCount = dayCount + 1;
                 }
 
-                dayDeathsList[i] = (int)(numberofVaccinatedInfectionsList[i] * fatalityRateList[i] * (1 - vaccinatedFatalityRate));
+                dayDeathsList[i] = (int)(numberofVaccinatedInfectionsList[i] * fatalityRateList[i] * vaccinatedFatalityRate);
                 numberOfVaccinatedList[i] -= dayDeathsList[i];
                 numberofVaccinatedInfectionsList[i] -= dayDeathsList[i];
                 popList[i] -= dayDeathsList[i];
@@ -723,7 +726,7 @@ public class Algorithm : MonoBehaviour
                 dayCount = 1;
                 for (int j = dayDeathsList[i]; j < 0; j = j - rand.Next(0, Math.Max(0, (int)j)))
                 {
-                    if (dayCount == threatingDay - 1)
+                    if (dayCount == threatingDay - 1 || dayCount == day)
                     {
                         dayCount = 1;
                     }
@@ -777,7 +780,7 @@ public class Algorithm : MonoBehaviour
 
                 numberofInfectionsList[i] -= changingnumber;
                 numberofVaccinatedInfectionsList[i] += changingnumber;
-                int dayCount = 1;
+                int dayCount = 0;
 
                 for (int j = changingnumber; j < 0; j = j - rand.Next(0, Math.Max(0, (int)j)))
                 {
@@ -785,7 +788,9 @@ public class Algorithm : MonoBehaviour
                     if (dayCount == threatingDay - 1 || dayCount == day)
                     {
                         dayCount = 0;
+                        continue;
                     }
+
                     infectsPerDayList[i, day - dayCount] -= j;
                     vaccinatedinfectsPerDayList[i, day - dayCount] += j;
 
@@ -876,17 +881,18 @@ public class Algorithm : MonoBehaviour
 
 
             day++; // 하루 일과 마침
-            Debug.Log("백신 접종 : {0}" + numberOfVaccinated);
-            Debug.Log("최종 감염자 : {0}" + numberOfInfections);
-            Debug.Log("생존자: {0}" + population);
+            //Debug.Log("백신 접종 : {0}" + numberOfVaccinated);
+            //Debug.Log("최종 감염자 : {0}" + numberOfInfections);
+            //Debug.Log("생존자: {0}" + population);
         }
-        Debug.Log("최종 날짜 : {0}" + day);
-        Debug.Log("최종 감염자 : {0}" + numberOfInfections);
-        Debug.Log("백신 접종 : {0}" + numberOfVaccinated);
-        Debug.Log("생존자: {0}" + population);
-        setCircleMakerVariableLevel2();
+        //Debug.Log("최종 날짜 : {0}" + day);
+        //Debug.Log("최종 감염자 : {0}" + numberOfInfections);
+        //Debug.Log("백신 접종 : {0}" + numberOfVaccinated);
+        //Debug.Log("생존자: {0}" + population);
 
+        setCircleMakerVariableLevel2();
     }
+
 
     public dayVaccinatingList[] CrossOver(wrapper[] topTeer, int endDay)
     {
@@ -943,7 +949,9 @@ public class Algorithm : MonoBehaviour
         for (int generation = 0; generation < targetGeneration; generation++)
         {
             Console.WriteLine("세대수 : {0}", generation);
-            System.Threading.Tasks.Parallel.For(0, children.Length, i =>
+
+            //System.Threading.Tasks.Parallel.For(0, children.Length, i =>
+            for (int i = 0; i < children.Length; i++)
             {
                 if (generation == 0)
                 {
@@ -956,7 +964,7 @@ public class Algorithm : MonoBehaviour
                 }
                 else
                     children[i].population = FitnessCheck(children[i].d);
-            });
+            };
 
             topteer = selection(children, numberOfSelect);
 
