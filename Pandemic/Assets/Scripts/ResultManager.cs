@@ -37,6 +37,24 @@ public class ResultManager : MonoBehaviour
 
     }
 
+    public void updateText2()
+    {
+
+        transmissionRateValue.text = mainCamera.GetComponent<Algorithm>().transmissionRate.ToString();
+        fatalityRateValue.text = mainCamera.GetComponent<Algorithm>().fatalityRate.ToString();
+        preventionRateValue.text = mainCamera.GetComponent<Algorithm>().preventionRate.ToString();
+        shotPerDayValue.text = mainCamera.GetComponent<Algorithm>().shotPerDay.ToString();
+        numberOfContactsValue.text = mainCamera.GetComponent<Algorithm>().numberOfContacts.ToString();
+        numberOfInfectionsValue.text = mainCamera.GetComponent<Algorithm>().numberOfInfections.ToString();
+        numberOfVaccinatedValue.text = mainCamera.GetComponent<Algorithm>().numberOfVaccinated.ToString();
+        populationValue.text = mainCamera.GetComponent<Algorithm>().population.ToString();
+        numberOfDeathsValue.text = (50000000 - mainCamera.GetComponent<Algorithm>().population).ToString();
+        fatalityRateValueChild.text = mainCamera.GetComponent<Algorithm>().fatalityRateList[0].ToString();
+        fatalityRateValueAdult.text = mainCamera.GetComponent<Algorithm>().fatalityRateList[1].ToString();
+        fatalityRateValueSenior.text = mainCamera.GetComponent<Algorithm>().fatalityRateList[2].ToString();
+
+    }
+
 
 
     // Start is called before the first frame update

@@ -18,6 +18,8 @@ public class InputManager : MonoBehaviour
     public InputField preventionRateField;
     public InputField shotPerDayField;
     public InputField numberOfContactsField;
+    public InputField vaccinatedFatalityRateField;
+    public InputField developPeriodField;
 
     public void Init()
     {
@@ -76,6 +78,18 @@ public class InputManager : MonoBehaviour
             mainCamera.GetComponent<Algorithm>().fatalityRateList[2]
                 = Convert.ToDouble(fatalityRateFieldSenior.text);
         }
+        if (!vaccinatedFatalityRateField.text.Equals(""))
+        {
+            Debug.Log("set vaccinatedFatalityRateField : " + Convert.ToDouble(vaccinatedFatalityRateField.text));
+            mainCamera.GetComponent<Algorithm>().vaccinatedFatalityRate
+                = Convert.ToDouble(vaccinatedFatalityRateField.text);
+        }
+        if (!developPeriodField.text.Equals(""))
+        {
+            Debug.Log("set vaccinatedFatalityRateField : " + Convert.ToInt32(developPeriodField.text));
+            mainCamera.GetComponent<Algorithm>().developPeriod
+                = Convert.ToInt32(developPeriodField.text);
+        }
     }
     // Start is called before the first frame update
     void Start()
@@ -90,15 +104,17 @@ public class InputManager : MonoBehaviour
         preventionRateField = GameObject.Find("preventionRateField").GetComponent<InputField>();
         shotPerDayField = GameObject.Find("shotPerDayField").GetComponent<InputField>();
         numberOfContactsField = GameObject.Find("numberOfContactsField").GetComponent<InputField>();
+        vaccinatedFatalityRateField = GameObject.Find("vaccinatedFatalityRateField").GetComponent<InputField>();
+        developPeriodField = GameObject.Find("developPeriodField").GetComponent<InputField>();
 
-    //initButton = GameObject.Find("initButton").GetComponent<Button>();
-    //nextButton = GameObject.Find("nextButton").GetComponent<Button>();
-    //initButton.onClick.AddListener(Init);
-    //nextButton.onClick.AddListener(gameObject.GetComponent<SceneManager>().NextScene);
-    //GameObject.Find("initButton").GetComponent<Text>().text = "초기화";
-    //GameObject.Find("nextButton").GetComponent<Text>().text = "다음";
+        //initButton = GameObject.Find("initButton").GetComponent<Button>();
+        //nextButton = GameObject.Find("nextButton").GetComponent<Button>();
+        //initButton.onClick.AddListener(Init);
+        //nextButton.onClick.AddListener(gameObject.GetComponent<SceneManager>().NextScene);
+        //GameObject.Find("initButton").GetComponent<Text>().text = "초기화";
+        //GameObject.Find("nextButton").GetComponent<Text>().text = "다음";
 
-}
+    }
 
     // Update is called once per frame
     void Update()
