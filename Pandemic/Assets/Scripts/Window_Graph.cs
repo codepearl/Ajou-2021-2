@@ -13,9 +13,12 @@ public class Window_Graph : MonoBehaviour
     List<GameObject> graphList = new List<GameObject>();
     public List<int> valueList = new List<int>();
     public int measure = 150;
+    public int y = 1000;
 
     public void setData(int[] infectRecord)
     {
+        int max = 0;
+
         graphList.Clear();
         valueList.Clear();
         //foreach(int i in infectRecord)
@@ -23,7 +26,10 @@ public class Window_Graph : MonoBehaviour
         {
             valueList.Add(infectRecord[i]);
             Debug.Log("infectRecord " + i + "  " + infectRecord[i]);
+            if (max < infectRecord[i])
+                max = infectRecord[i];
         }
+        y = max * 2;
         
     }
 
@@ -31,7 +37,7 @@ public class Window_Graph : MonoBehaviour
     {
         graphContainer = transform.Find("graphContainer").GetComponent<RectTransform>();
 
-        //List<int> valueList = new List<int>() { 5, 170, 5, 6, 170, 5, 7, 8, 45, 17, 18, 19, 33 };
+        //List<int> valueList = new List<int>() { 5, 170, 5, 6, 500, 5, 7, 8, 45, 17, 18, 19, 33 };
         //ShowGraph(valueList);
         //해당 임의의 값이 아닌 반환값을 넣어주면 됨.
     }
@@ -52,7 +58,7 @@ public class Window_Graph : MonoBehaviour
     public void ShowGraph(List<int> valueList)
     {
         float graphHeight = graphContainer.sizeDelta.y;
-        float yMaximum = 1000; //Y축 범위 (값이 이 범위안에 있어야 그래프가 정상적으로 출력됨)
+        float yMaximum = y; //Y축 범위 (값이 이 범위안에 있어야 그래프가 정상적으로 출력됨)
         float xSize = 30f; //X축 범위
 
         GameObject lastCircleGameObject = null;

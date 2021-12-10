@@ -206,7 +206,7 @@ public class Algorithm : MonoBehaviour
         return childrenList;
     }
 
-    public int FitnessCheck(dayVaccinatingList d)
+    public int FitnessCheck(dayVaccinatingList d, bool final)
     {
         startPop = 50000000; // 인구수 설정
         population = startPop;
@@ -300,11 +300,13 @@ public class Algorithm : MonoBehaviour
         int[,] deadRecord = new int[3, endDay]; // 연령대별 사망자 수 기록
         int[,] infectsPerDayList = new int[3, endDay]; // 날짜별 미접종자 감염자 수 기록 (치유 목적)
         int[,] vaccinatedinfectsPerDayList = new int[3, endDay]; // 날짜별 접종자 감염자 수 기록 (치유 목적)
-
+       
+        for (int i = 0; i < 3; i++)
+            graphRecord[i] = 0;
 
 
         //// 생성 ////
- 
+
 
 
         //// 실제 Simulation 시작 ////
@@ -514,6 +516,7 @@ public class Algorithm : MonoBehaviour
                 infectsPerDayList[i, day] = dayinfectsList[i]; // 하루 미접종자 감염자 수 기록
                 vaccinatedinfectsPerDayList[i, day] = dayVaccinatedInfectsList[i]; // 하루 접종자 감염자 수 기록
                 infectedRecord[i, day] = numberofInfectionsList[i] + numberofVaccinatedInfectionsList[i]; // 총 감염자 수 기록
+                if (final) graphRecord[day] += infectedRecord[i, day]; //그래프를 위한 하루 감염자 수 기록
                 deadRecord[i, day] = startPop - popList[i]; // 사망자 기록
             }
 
@@ -542,361 +545,17 @@ public class Algorithm : MonoBehaviour
             //Debug.Log("최종 감염자 : {0}" + numberOfInfections);
             //Debug.Log("생존자: {0}" + population);
         }
-        //Debug.Log("최종 날짜 : {0}" + day);
-        //Debug.Log("최종 감염자 : {0}" + numberOfInfections);
-        //Debug.Log("백신 접종 : {0}" + numberOfVaccinated);
-        //Debug.Log("생존자: {0}" + population);
+        if(final)
+        {
+            Debug.Log("최종 날짜 : {0}" + day);
+            Debug.Log("최종 감염자 : {0}" + numberOfInfections);
+            Debug.Log("백신 접종 : {0}" + numberOfVaccinated);
+            Debug.Log("생존자: {0}" + population);
+
+            setCircleMakerVariableLevel2();
+        }
 
         return population;
-    }
-
-    public void FinalSimulation(dayVaccinatingList d)
-    {
-        startPop = 50000000; // 인구수 설정
-        population = startPop;
-        //// 인구 관련 설정 변수 ////
-        ///
-        for (int i = 0; i < 3; i++)
-            graphRecord[i] = 0;
-
-
-        double youngRate = 0.167; // 미성년자 초기 비율 (10대 이하)
-        double adultRate = 0.587; // 청장년 초기 비율 (20대 ~ 50대)
-        double oldRate = 1 - (youngRate + adultRate); // 노인 초기 비율 (50대 이상)
-
-        // 각 연령대별 인구수 배열
-
-        popList[0] = (int)(population * youngRate); // 미성년자 인구수 초기설정
-        popList[1] = (int)(population * adultRate); // 청장년 인구수 초기설정
-        popList[2] = (int)(population * oldRate); // 노인 인구수 초기설정
-
-        double[] popRateList = new double[3]; // 인구 비율(계산용)
-        for (int i = 0; i < 3; i++)
-            popRateList[i] = (double)popList[i] / (double)population;
-
-        double mu_c, sigma_c;
-        mu_c = (double)numberOfContacts; // 하루 접촉자 수 평균
-        sigma_c = mu_c / 5;
-
-        //// 바이러스 관련 설정 변수 ////
-        ///
-
-
-
-
-        int[] dayDeathsList = new int[3]; // 연령별 사망자 수
-        for (int i = 0; i < 3; i++)
-            dayDeathsList[i] = 0;
-
-        numberOfInfections = 14; // 초기 감염자 숫자
-
-        for (int i = 0; i < 2; i++)
-            dayinfectsList[i] = (int)(numberOfInfections * popRateList[i]);
-        dayinfectsList[2] = numberOfInfections - (dayinfectsList[0] + dayinfectsList[1]); // 노인 하루 감염자 수
-
-        for (int i = 0; i < 3; i++)
-            dayVaccinatedInfectsList[i] = 0;
-
-
-        for (int i = 0; i < 3; i++)
-            numberofInfectionsList[i] = dayinfectsList[i];
-
-        int[] numberofVaccinatedInfectionsList = new int[3]; // 백신 접종자 인구별 총 감염자 수
-        for (int i = 0; i < 3; i++)
-            numberofVaccinatedInfectionsList[i] = dayVaccinatedInfectsList[i];
-
-        vaccinatedRate = 0;
-        infectionsRate = 0;
-        dayInfects = 0;
-        numberOfVaccinated = 0;
-        numberOfDeaths = 0;
-        numberOfInfections = 14;
-        day = 0;
-
-        //threatingDay = 14; // 치료 기간
-
-
-
-        //// 백신 관련 설정 변수 ////
-
-
-
-        numberOfVaccinatedList[0] = 0; // 미성년자 백신 접종자 수
-        numberOfVaccinatedList[1] = 0; // 청장년 백신 접종자 수
-        numberOfVaccinatedList[2] = 0; // 노인 백신 접종자 수
-
-        for (int i = 0; i < 3; i++)
-            numberOfVaccinated += numberOfVaccinatedList[i]; // 총 백신 접종량
-
-        int[] shotPerDayList = new int[3];
-
-
-        double mu_s, sigma_s;
-
-        mu_s = popList[1] * vaccineCost; // 백신 접종량 평균
-        sigma_s = mu_s / 8;
-
-
-        //// 기록 변수들 ////
-
-        day = 0; // 날짜 Counting
-        int endDay = 3650; // 끝나는 일수
-        int[] dayRecord = new int[endDay]; // 날짜 (그래프 X축)
-        int[,] infectedRecord = new int[3, endDay]; // 연령대별 누적 감염자 수 기록
-        int[,] vaccinatedRecord = new int[3, endDay]; // 연령대별 백신 접종자 수 기록
-        int[,] deadRecord = new int[3, endDay]; // 연령대별 사망자 수 기록
-        int[,] infectsPerDayList = new int[3, endDay]; // 날짜별 미접종자 감염자 수 기록 (치유 목적)
-        int[,] vaccinatedinfectsPerDayList = new int[3, endDay]; // 날짜별 접종자 감염자 수 기록 (치유 목적)
-
-
-
-        //// 생성 ////
-
-
-
-        //// 실제 Simulation 시작 ////
-
-        while (vaccinatedRate < 1 & numberOfInfections < population & day < endDay)
-        {
-            // 하루 일과 : 집계-> 감염 -> 사망 -> 백신 접종 -> 마감
-            // Console.WriteLine("");
-            // Console.WriteLine("날짜 : " + day);
-
-            System.Random rand = new System.Random();
-
-
-            mu_s = (popList[1] - numberofInfectionsList[1] - numberofVaccinatedInfectionsList[1]) * vaccineCost; // 백신 접종량 평균
-            sigma_s = mu_s / 8;
-
-            //numberOfContacts = (int)norm(mu_c, sigma_c); // 접촉자 수 선정
-            //numberOfContacts = (int)(numberOfContacts * (1 - Math.Pow(infectionsRate, 0.05)) * Math.Pow(Math.Max(1, day - 1500), 0.01) + 3);
-
-
-            // print(numberOfContacts, infectionsRate, numberOfInfections)
-            // 코로나가 심해질수록 밖에 안나감, 3명은 무조건 만남
-            // 1500일 이후 위드코로나 진행 (만나는 사람 증가로 인한 2차 팬데믹 유도)
-
-            // Console.Write("감염자 : ");
-            for (int i = 0; i < 3; i++)
-            {
-                dayinfectsList[i] = (int)((numberOfInfections * (double)numberOfContacts * transmissionRate * (1 - vaccinatedRate) * (1 - infectionsRate)) * popRateList[i]);
-                dayinfectsList[i] += (int)((double)rand.Next(20, 31) * popRateList[i] * (1 - vaccinatedRate));
-                dayinfectsList[i] = Math.Abs(dayinfectsList[i]);
-                dayVaccinatedInfectsList[i] = (int)((numberOfInfections * (double)numberOfContacts * transmissionRate * (1 - vaccinatedTransRate) * vaccinatedRate * (1 - infectionsRate)) * popRateList[i]);
-                dayVaccinatedInfectsList[i] += (int)(rand.Next(20, 31) * popRateList[i] * vaccinatedRate);
-                dayVaccinatedInfectsList[i] = Math.Abs(dayVaccinatedInfectsList[i]);               // 감염자로 인한 전파 + 외부 유입 (20~30)
-                numberofInfectionsList[i] += dayinfectsList[i]; // 연령별 총 감염자수 추가
-                numberofVaccinatedInfectionsList[i] += dayVaccinatedInfectsList[i];
-
-                // Console.Write(numberofInfectionsList[i] + " ");
-                // Console.Write(numberofVaccinatedInfectionsList[i] + " ");
-            }
-            // Console.WriteLine("");
-
-
-
-            //// 사망 단계 ////
-            for (int i = 0; i < 3; i++)
-            {
-                dayDeathsList[i] = (int)(numberofInfectionsList[i] * fatalityRateList[i]);
-                numberofInfectionsList[i] -= dayDeathsList[i];
-
-
-                popList[i] -= dayDeathsList[i];
-
-                int dayCount = 1;
-                for (int j = dayDeathsList[i]; j < 0; j = j - rand.Next(0, Math.Max(0, (int)j)))
-                {
-                    if (dayCount == threatingDay - 1 || dayCount == day)
-                    {
-                        dayCount = 0;
-                    }
-                    infectsPerDayList[i, day - dayCount] -= j;
-
-                    if (infectsPerDayList[i, day - dayCount] < 0)
-                    {
-                        j += (0 - infectsPerDayList[i, day - dayCount]);
-                        infectsPerDayList[i, day - dayCount] = 0;
-                    }
-
-                    dayCount = dayCount + 1;
-                }
-
-                dayDeathsList[i] = (int)(numberofVaccinatedInfectionsList[i] * fatalityRateList[i] * vaccinatedFatalityRate);
-                numberOfVaccinatedList[i] -= dayDeathsList[i];
-                numberofVaccinatedInfectionsList[i] -= dayDeathsList[i];
-                popList[i] -= dayDeathsList[i];
-
-                dayCount = 1;
-                for (int j = dayDeathsList[i]; j < 0; j = j - rand.Next(0, Math.Max(0, (int)j)))
-                {
-                    if (dayCount == threatingDay - 1 || dayCount == day)
-                    {
-                        dayCount = 1;
-                    }
-                    vaccinatedinfectsPerDayList[i, day - dayCount] -= j;
-
-                    if (vaccinatedinfectsPerDayList[i, day - dayCount] < 0)
-                    {
-                        j += (0 - vaccinatedinfectsPerDayList[i, day - dayCount]);
-                        vaccinatedinfectsPerDayList[i, day - dayCount] = 0;
-                    }
-
-                    dayCount = dayCount + 1;
-                }
-            }
-
-
-
-            //// 백신 접종 단계 ////
-
-            shotPerDay = (int)(norm(mu_s, sigma_s));
-
-            int reallyshot;
-            // Console.Write("백신 접종량 : ");
-            for (int i = 0; i < 3; i++)
-            {
-                shotPerDayList[i] = (int)(shotPerDay * d.a[day].howOldAreYou[i]);
-
-                reallyshot = (int)(shotPerDayList[i] * preventionRate * (1 - vaccinatedRate) * Math.Max(infectionsRate, 0.01));
-                if (reallyshot < 0)
-                    reallyshot = 0;
-
-                if (numberOfVaccinatedList[i] + reallyshot < popList[i])
-                    numberOfVaccinatedList[i] += reallyshot;
-                else
-                {
-                    reallyshot = popList[i] - numberOfVaccinatedList[i];
-                    numberOfVaccinatedList[i] = popList[i];
-                }
-                // Console.Write(numberOfVaccinatedList[i] + " ");
-                // Console.Write(reallyshot + " ");
-
-                // 확진자가 많아질수록 백신 희망자가 늘어남
-                // 백신 접종률이 높아질수록 안이한 생각에 맞지 않으려 함
-                // 0.01%의 국민은 무조건 하루에 백신을 맞추려고 함.
-                int changingnumber = 0;
-                if ((popList[i] - numberOfVaccinatedList[i]) > 0)
-                    changingnumber = (int)(numberofInfectionsList[i] / (double)(popList[i] - numberOfVaccinatedList[i]) * reallyshot);
-
-                if (changingnumber > numberofInfectionsList[i])
-                    changingnumber = numberofInfectionsList[i];
-
-                numberofInfectionsList[i] -= changingnumber;
-                numberofVaccinatedInfectionsList[i] += changingnumber;
-                int dayCount = 0;
-
-                for (int j = changingnumber; j < 0; j = j - rand.Next(0, Math.Max(0, (int)j)))
-                {
-
-                    if (dayCount == threatingDay - 1 || dayCount == day)
-                    {
-                        dayCount = 0;
-                        continue;
-                    }
-
-                    infectsPerDayList[i, day - dayCount] -= j;
-                    vaccinatedinfectsPerDayList[i, day - dayCount] += j;
-
-                    if (infectsPerDayList[i, day - dayCount] < 0)
-                    {
-                        j += (0 - infectsPerDayList[i, day - dayCount]);
-                        infectsPerDayList[i, day - dayCount] = 0;
-                    }
-
-                    dayCount = dayCount + 1;
-                }
-
-            }
-            // Console.WriteLine("");
-
-
-            //// 치료 단계 ////
-            if (day > threatingDay)
-            {
-                int totalInfected = 0;
-                // Console.Write("치료 될 감염자 : ");
-                for (int i = 0; i < 3; i++)
-                {
-                    totalInfected += numberofInfectionsList[i] + numberofVaccinatedInfectionsList[i];
-                    // Console.Write(infectsPerDayList[i, day - threatingDay] + " ");
-                    // Console.Write(vaccinatedinfectsPerDayList[i, day - threatingDay] + " ");
-                }
-                // Console.WriteLine("");
-                // Console.Write("치료 후 총감염자 : ");
-                if (totalInfected > 100)
-                    for (int i = 0; i < 3; i++) // 연령별 감염자 치료날짜 이후 비감염자 됨
-                    {
-                        numberofInfectionsList[i] -= infectsPerDayList[i, day - threatingDay];
-                        if (numberofInfectionsList[i] < 0)
-                            numberofInfectionsList[i] = 0;
-
-                        numberofVaccinatedInfectionsList[i] -= vaccinatedinfectsPerDayList[i, day - threatingDay];
-                        if (numberofVaccinatedInfectionsList[i] < 0)
-                            numberofVaccinatedInfectionsList[i] = 0;
-
-                        // Console.Write(numberofInfectionsList[i] + " ");
-                        // Console.Write(numberofVaccinatedInfectionsList[i] + " ");
-                    }
-
-            }
-            // Console.WriteLine(" ");
-
-
-            //// 집계 단계 ////
-
-            population = popList[0] + popList[1] + popList[2]; // 인구 집계
-                                                               // Console.Write("인구수 : ");
-            for (int i = 0; i < 3; i++)
-            {
-                // Console.Write("{0} ", popList[i]);
-                popRateList[i] = popList[i] / (double)population;
-            }
-            // Console.WriteLine(" ");
-
-            dayRecord[day] = day; // 날짜 기록
-
-            for (int i = 0; i < 3; i++)
-            {
-                infectsPerDayList[i, day] = dayinfectsList[i]; // 하루 미접종자 감염자 수 기록
-                vaccinatedinfectsPerDayList[i, day] = dayVaccinatedInfectsList[i]; // 하루 접종자 감염자 수 기록
-                infectedRecord[i, day] = numberofInfectionsList[i] + numberofVaccinatedInfectionsList[i]; // 총 감염자 수 기록
-                graphRecord[day] += infectedRecord[i, day]; //그래프를 위한 하루 감염자 수 기록
-                deadRecord[i, day] = startPop - popList[i]; // 사망자 기록
-            }
-
-
-            for (int i = 0; i < 3; i++)
-            {
-                numberOfVaccinated += numberOfVaccinatedList[i]; // 총 백신 접종량 집계
-                vaccinatedRecord[i, day] = numberOfVaccinatedList[i]; // 백신 접종자 수 기록
-            }
-
-            numberOfInfections = 0;
-            numberOfVaccinated = 0;
-
-            for (int i = 0; i < 3; i++)
-            {
-                numberOfInfections += numberofInfectionsList[i] + numberofVaccinatedInfectionsList[i]; // 총 감염자 수 불러오기
-                numberOfVaccinated += numberOfVaccinatedList[i]; // 총 백신 접종량 불러오기
-            }
-
-            infectionsRate = (numberOfInfections / (double)population);
-            vaccinatedRate = (numberOfVaccinated / (double)population);
-
-
-            day++; // 하루 일과 마침
-            //Debug.Log("백신 접종 : {0}" + numberOfVaccinated);
-            //Debug.Log("최종 감염자 : {0}" + numberOfInfections);
-            //Debug.Log("생존자: {0}" + population);
-        }
-        Debug.Log("최종 날짜 : {0}" + day);
-        Debug.Log("최종 감염자 : {0}" + numberOfInfections);
-        Debug.Log("백신 접종 : {0}" + numberOfVaccinated);
-        Debug.Log("생존자: {0}" + population);
-
-        setCircleMakerVariableLevel2();
-
     }
 
 
@@ -966,10 +625,10 @@ public class Algorithm : MonoBehaviour
                     Solution = FirstVaccinatingCreate(endDay);
 
                     children[i].d = Solution;
-                    children[i].population = FitnessCheck(Solution);
+                    children[i].population = FitnessCheck(Solution, false);
                 }
                 else
-                    children[i].population = FitnessCheck(children[i].d);
+                    children[i].population = FitnessCheck(children[i].d, false);
             };
 
             topteer = selection(children, numberOfSelect);
@@ -999,7 +658,7 @@ public class Algorithm : MonoBehaviour
         Console.WriteLine("3위 사망자 수 : {0}", (50000000 - winner[2].population));
 
        
-        FinalSimulation(winner[0].d); // 1등으로 그래프 그리기 하는 메소드
+        FitnessCheck(winner[0].d, true); // 1등으로 그래프 그리기 하는 메소드
 
         //variable set
         // =>result manager
