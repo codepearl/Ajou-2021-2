@@ -64,8 +64,8 @@ public class CircleMaker : MonoBehaviour
                 
                 if (targetCircle > p)
                 {
-                    p+=200;
-                    pt+=200;
+                    p+=500;
+                    pt+=500;
                     //for(int i=0; i<1000; i++)
                     if(pt >= 10000)
                     {

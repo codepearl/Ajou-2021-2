@@ -3,12 +3,14 @@ ScriptsOnlyBuild:
     Assembly-CSharp.dll:
     - Algorithm
     - CircleMaker
+    - CodeMonkey.Assets
     - InitButtonEvent
     - InputManager
     - NextButtonEvent
     - PrevButtonEvent
     - ResultManager
     - SceneManager
+    - Window_Graph
     Unity.2D.Animation.Editor.dll:
     - UnityEditor.U2D.Animation.BoneGizmo
     Unity.2D.IK.Editor.dll:
@@ -58,35 +60,39 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 1522}
     - Class: 114
-      Script: {instanceID: 1944}
+      Script: {instanceID: 1946}
     - Class: 114
-      Script: {instanceID: 2246}
+      Script: {instanceID: 2252}
     - Class: 114
-      Script: {instanceID: 2518}
+      Script: {instanceID: 2526}
     - Class: 114
-      Script: {instanceID: 2618}
+      Script: {instanceID: 2628}
     - Class: 114
-      Script: {instanceID: 2676}
+      Script: {instanceID: 2684}
     - Class: 114
-      Script: {instanceID: 2848}
+      Script: {instanceID: 2688}
     - Class: 114
-      Script: {instanceID: 3080}
+      Script: {instanceID: 2864}
     - Class: 114
-      Script: {instanceID: 3138}
+      Script: {instanceID: 3102}
     - Class: 114
-      Script: {instanceID: 3328}
+      Script: {instanceID: 3160}
     - Class: 114
-      Script: {instanceID: 3444}
+      Script: {instanceID: 3350}
     - Class: 114
-      Script: {instanceID: 3564}
+      Script: {instanceID: 3466}
     - Class: 114
-      Script: {instanceID: 3992}
+      Script: {instanceID: 3586}
     - Class: 114
-      Script: {instanceID: 4330}
+      Script: {instanceID: 4018}
     - Class: 114
-      Script: {instanceID: 4590}
+      Script: {instanceID: 4358}
     - Class: 114
-      Script: {instanceID: 5820}
+      Script: {instanceID: 4618}
+    - Class: 114
+      Script: {instanceID: 5858}
+    - Class: 114
+      Script: {instanceID: 5866}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -130,6 +136,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.2D.Animation.Runtime.dll
     namespaceName: UnityEngine.U2D.Animation
     className: SpriteSkin
+  - hash:
+      serializedVersion: 2
+      Hash: a2b249e27e25a975ba9d3c9b8e130910
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: CodeMonkey.Utils
+    className: Button_UI
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -186,7 +198,7 @@ ScriptsOnlyBuild:
     className: TMP_FontAsset
   - hash:
       serializedVersion: 2
-      Hash: 6c0e0493cd53e3d07148d32486a61f89
+      Hash: fc9f9cb4a850aa1b2b55d8d91e6ca198
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Algorithm
@@ -234,16 +246,40 @@ ScriptsOnlyBuild:
     className: IKManager2D
   - hash:
       serializedVersion: 2
+      Hash: fa653120b8e2e20f2e5fa15091afeb95
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: CodeMonkey.Utils
+    className: Button_Sprite
+  - hash:
+      serializedVersion: 2
       Hash: 40b8984ed6c776af88d4c547be899b84
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: NextButtonEvent
   - hash:
       serializedVersion: 2
+      Hash: 5b1d3232bdaba52e260d32a9eb24296b
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: CodeMonkey.MonoBehaviours
+    className: CameraFollowSetup
+  - hash:
+      serializedVersion: 2
       Hash: d42ebba9357da677b66bf07b927ee4ef
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: InitButtonEvent
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: CodeMonkey.MonoBehaviours
+    className: CameraFollow
+  - hash:
+      serializedVersion: 2
+      Hash: e4bdd198714ebacf1ebef1367327eff4
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: CodeMonkey
+    className: Assets
   - hash:
       serializedVersion: 2
       Hash: a1aa98c78061c6f03a8c124cda576e67
@@ -286,6 +322,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TextMeshProUGUI
+  - hash:
+      serializedVersion: 2
+      Hash: 05cede3f915399cac147f9e5eea79328
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: CodeMonkey.MonoBehaviours
+    className: PositionRendererSorter
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -384,7 +426,7 @@ ScriptsOnlyBuild:
     className: TextContainer
   - hash:
       serializedVersion: 2
-      Hash: 9149309cba6c657bc648e1f5ceedeef5
+      Hash: cc1ddd4c9fa1cc575db3ae9747e7ac76
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: ResultManager
@@ -534,7 +576,7 @@ ScriptsOnlyBuild:
     className: MainSceneManager
   - hash:
       serializedVersion: 2
-      Hash: c15e5e82675ff187d2f10f93d390c1b0
+      Hash: ad071e52686ae02610806b2f2285d5d0
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: SceneManager
@@ -598,6 +640,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.2D.Animation.Runtime.dll
     namespaceName: UnityEngine.U2D.Animation
     className: SpriteSkinEntity
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: CodeMonkey.MonoBehaviours
+    className: ComponentActions
   - hash:
       serializedVersion: 2
       Hash: 28cfb4bd305dd11c6326cc3ee7c14138
@@ -666,11 +714,17 @@ ScriptsOnlyBuild:
     className: FabrikSolver2D
   - hash:
       serializedVersion: 2
-      Hash: a6d616e1fc1ccb2b93613537b4165ce6
+      Hash: 2b519f105710dcba0c28c51b911e1f62
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: InputManager
+  - hash:
+      serializedVersion: 2
+      Hash: 865e98314a2769ff5ebaa5cdbfff84e6
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Window_Graph
   platform: 19
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: "D:/Ajou/2021-2/\uC2DC\uC2A4\uD15C\uCD5C\uC801\uD654/Build_Test/Pandemic.exe"
+  playerPath: "D:/Ajou/2021-2/\uC2DC\uC2A4\uD15C\uCD5C\uC801\uD654/final_candidate6/Pandemic.exe"

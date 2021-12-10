@@ -23,6 +23,9 @@ public class Algorithm : MonoBehaviour
     public int threatingDay = 14;
 
     public int[] graphRecord = new int[3650];
+    public int[] childInfectRecord = new int[3650];
+    public int[] adultInfectRecord = new int[3650];
+    public int[] seniorInfectRecord = new int[3650];
 
     public int[] popList;
     public int day = 0;
@@ -305,7 +308,13 @@ public class Algorithm : MonoBehaviour
         int[,] vaccinatedinfectsPerDayList = new int[3, endDay]; // 날짜별 접종자 감염자 수 기록 (치유 목적)
        
         for (int i = 0; i < 3; i++)
+        {
             graphRecord[i] = 0;
+            childInfectRecord[i] = 0;
+            adultInfectRecord[i] = 0;
+            seniorInfectRecord[i] = 0;
+        }
+
 
 
         //// 생성 ////
@@ -519,7 +528,13 @@ public class Algorithm : MonoBehaviour
                 infectsPerDayList[i, day] = dayinfectsList[i]; // 하루 미접종자 감염자 수 기록
                 vaccinatedinfectsPerDayList[i, day] = dayVaccinatedInfectsList[i]; // 하루 접종자 감염자 수 기록
                 infectedRecord[i, day] = numberofInfectionsList[i] + numberofVaccinatedInfectionsList[i]; // 총 감염자 수 기록
-                if (final) graphRecord[day] += infectedRecord[i, day]; //그래프를 위한 하루 감염자 수 기록
+                if (final)
+                {
+                    graphRecord[day] += infectedRecord[i, day]; //그래프를 위한 하루 감염자 수 기록
+                    childInfectRecord[day] = infectedRecord[0, day];
+                    adultInfectRecord[day] = infectedRecord[1, day];
+                    seniorInfectRecord[day] = infectedRecord[2, day];
+                }
                 deadRecord[i, day] = startPop - popList[i]; // 사망자 기록
             }
 

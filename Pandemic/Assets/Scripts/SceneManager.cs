@@ -117,7 +117,13 @@ public class SceneManager : MonoBehaviour
     void SetCameraToGraph()
     {
         wg.GetComponent<Window_Graph>().setData(camera.GetComponent<Algorithm>().graphRecord);
-        wg.GetComponent<Window_Graph>().ShowGraph(wg.GetComponent<Window_Graph>().valueList);
+        wg.GetComponent<Window_Graph>().setData2(camera.GetComponent<Algorithm>().childInfectRecord, 1);
+        wg.GetComponent<Window_Graph>().setData2(camera.GetComponent<Algorithm>().adultInfectRecord, 2);
+        wg.GetComponent<Window_Graph>().setData2(camera.GetComponent<Algorithm>().seniorInfectRecord, 3);
+        wg.GetComponent<Window_Graph>().ShowGraph(wg.GetComponent<Window_Graph>().valueList, new Color(1,1,1,0.5f));
+        wg.GetComponent<Window_Graph>().ShowGraph(wg.GetComponent<Window_Graph>().childvalueList, new Color(1, 0, 0, 0.5f));
+        wg.GetComponent<Window_Graph>().ShowGraph(wg.GetComponent<Window_Graph>().adultvalueList, new Color(0, 1, 0, 0.5f));
+        wg.GetComponent<Window_Graph>().ShowGraph(wg.GetComponent<Window_Graph>().seniorvalueList, new Color(0, 0, 1, 0.5f));
         camera.transform.position = new Vector3(0, 60, -10);
         GraphCanvas.enabled = true;
     }
