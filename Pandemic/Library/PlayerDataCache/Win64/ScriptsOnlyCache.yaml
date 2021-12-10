@@ -11,6 +11,7 @@ ScriptsOnlyBuild:
     - ResultManager
     - SceneManager
     - Window_Graph
+    - changeButtonEvent
     Unity.2D.Animation.Editor.dll:
     - UnityEditor.U2D.Animation.BoneGizmo
     Unity.2D.IK.Editor.dll:
@@ -93,6 +94,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 5858}
     - Class: 114
       Script: {instanceID: 5866}
+    - Class: 114
+      Script: {instanceID: 23598}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -198,7 +201,7 @@ ScriptsOnlyBuild:
     className: TMP_FontAsset
   - hash:
       serializedVersion: 2
-      Hash: fc9f9cb4a850aa1b2b55d8d91e6ca198
+      Hash: a558fa20a7a7766c5910ef661162faed
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Algorithm
@@ -720,11 +723,17 @@ ScriptsOnlyBuild:
     className: InputManager
   - hash:
       serializedVersion: 2
-      Hash: 865e98314a2769ff5ebaa5cdbfff84e6
+      Hash: 33dd310179f24edc948589f92f39f098
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Window_Graph
+  - hash:
+      serializedVersion: 2
+      Hash: 40b8984ed6c776af88d4c547be899b84
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: changeButtonEvent
   platform: 19
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: "D:/Ajou/2021-2/\uC2DC\uC2A4\uD15C\uCD5C\uC801\uD654/final_candidate6/Pandemic.exe"
+  playerPath: "D:/Ajou/2021-2/\uC2DC\uC2A4\uD15C\uCD5C\uC801\uD654/Ajou-2021-2/Build/Pandemic.exe"

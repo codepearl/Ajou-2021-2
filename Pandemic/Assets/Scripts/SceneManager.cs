@@ -116,6 +116,11 @@ public class SceneManager : MonoBehaviour
 
     void SetCameraToGraph()
     {
+        wg.GetComponent<Window_Graph>().mode = 0;
+        wg.GetComponent<Window_Graph>().text1.text = "전체 감염자";
+        wg.GetComponent<Window_Graph>().text2.text = "아이 감염자";
+        wg.GetComponent<Window_Graph>().text3.text = "청년 감염자";
+        wg.GetComponent<Window_Graph>().text4.text = "노인 감염자";
         wg.GetComponent<Window_Graph>().setData(camera.GetComponent<Algorithm>().graphRecord);
         wg.GetComponent<Window_Graph>().setData2(camera.GetComponent<Algorithm>().childInfectRecord, 1);
         wg.GetComponent<Window_Graph>().setData2(camera.GetComponent<Algorithm>().adultInfectRecord, 2);
