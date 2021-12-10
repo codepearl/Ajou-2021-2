@@ -7512,6 +7512,7 @@ MonoBehaviour:
   circleSprite: {fileID: 21300000, guid: a0e35f6b808bb7447826cc6c69ffe448, type: 3}
   valueList: 
   measure: 150
+  y: 1000
 --- !u!1 &1666072369
 GameObject:
   m_ObjectHideFlags: 0
@@ -9269,7 +9270,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 09adab9b76fca144c895f1a8e1a4de3f, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

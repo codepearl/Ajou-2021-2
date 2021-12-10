@@ -43,10 +43,13 @@ public class CircleMaker : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Color color = Color.red;
+        color.a = 0.2f;
         currentCircle = 0;
         targetCircle = 1000;
         time = 1;
         days = 0;
+        Circle.GetComponent<Renderer>().material.SetColor("_Color", color);
     }
 
     // Update is called once per frame
@@ -66,8 +69,23 @@ public class CircleMaker : MonoBehaviour
                     //for(int i=0; i<1000; i++)
                     if(pt >= 20000)
                     {
+                        int n = Random.Range(0,3);
+                        Vector3 v = new Vector3();
+                        switch (n)
+                        {
+                        case 0:
+                            v = new Vector3(Random.Range(-10.0f, -17.0f) * 0.1f + 0.5f, Random.Range(6.0f, 12.0f) * 0.1f - 0.15f, -2);
+                            break;
+                        case 1:
+                            v = new Vector3(Random.Range(-10.0f, -20.0f) * 0.1f + 0.8f, Random.Range(2.0f, 17.0f) * 0.1f - 0.1f, -2);
+                            break;
+                        case 2:
+                            v = new Vector3(Random.Range(-14.0f, 14.0f) * 0.1f, Random.Range(-10.0f, 20.0f) * 0.1f - 1.5f, -2);
+                            break;
+                        }
+
                         pt = 0;
-                        circleList.Add(Instantiate(Circle, this.transform.position + new Vector3(Random.Range(-8.0f, 17.0f) * 0.1f, Random.Range(-10.0f, 15.0f) * 0.1f, -2), this.transform.rotation, this.transform) as GameObject);
+                        circleList.Add(Instantiate(Circle, this.transform.position + v, this.transform.rotation, this.transform) as GameObject);
                         //Debug.Log("make circle " + currentCircle);
                         //currentCircle += 10000;
                     }
