@@ -67,7 +67,7 @@ public class CircleMaker : MonoBehaviour
                     p+=200;
                     pt+=200;
                     //for(int i=0; i<1000; i++)
-                    if(pt >= 20000)
+                    if(pt >= 10000)
                     {
                         int n = Random.Range(0,3);
                         Vector3 v = new Vector3();

@@ -34,7 +34,7 @@ public class ResultManager : MonoBehaviour
         transmissionRateValue.text = mainCamera.GetComponent<Algorithm>().transmissionRate.ToString();
         fatalityRateValue.text = mainCamera.GetComponent<Algorithm>().fatalityRate.ToString();
         preventionRateValue.text = mainCamera.GetComponent<Algorithm>().preventionRate.ToString();
-        shotPerDayValue.text = mainCamera.GetComponent<Algorithm>().shotPerDay.ToString();
+        shotPerDayValue.text = mainCamera.GetComponent<Algorithm>().mu_s.ToString();// shotPerDay.ToString();
         numberOfContactsValue.text = mainCamera.GetComponent<Algorithm>().numberOfContacts.ToString();
         numberOfInfectionsValue.text = mainCamera.GetComponent<Algorithm>().numberOfInfections.ToString();
         numberOfVaccinatedValue.text = mainCamera.GetComponent<Algorithm>().numberOfVaccinated.ToString();

@@ -30,7 +30,11 @@ public class Algorithm : MonoBehaviour
     public int[] dayinfectsList = new int[3]; // 백신 미접종자에 대한 감염자 수
     public int[] dayVaccinatedInfectsList = new int[3]; // 백신 접종자에 대한 감염자 수
 
-    public int numberOfContacts = 30;
+    public int numberOfContacts = 100;
+
+    public double mu_s, sigma_s;
+    public double mu_c, sigma_c;
+
 
     public int shotPerDay;
     public double preventionRate;
@@ -228,7 +232,7 @@ public class Algorithm : MonoBehaviour
             popRateList[i] = (double)popList[i] / (double)population;
 
         double mu_c, sigma_c;
-        mu_c = (double) numberOfContacts; // 하루 접촉자 수 평균
+        mu_c = (double)100; /// numberOfContacts; // 하루 접촉자 수 평균
         sigma_c = mu_c / 5;
 
         //// 바이러스 관련 설정 변수 ////
@@ -284,8 +288,7 @@ public class Algorithm : MonoBehaviour
         int[] shotPerDayList = new int[3];
 
 
-        double mu_s, sigma_s;
-
+        
         mu_s = popList[1] * vaccineCost; // 백신 접종량 평균
         sigma_s = mu_s / 8;
 
@@ -320,11 +323,11 @@ public class Algorithm : MonoBehaviour
             System.Random rand = new System.Random();
 
 
-            mu_s = (popList[1] - numberofInfectionsList[1] - numberofVaccinatedInfectionsList[1]) * vaccineCost; // 백신 접종량 평균
+            mu_s = (popList[1] - numberofInfectionsList[1] - numberofVaccinatedInfectionsList[1]) / vaccineCost; // 백신 접종량 평균
             sigma_s = mu_s / 8;
 
-            //numberOfContacts = (int)norm(mu_c, sigma_c); // 접촉자 수 선정
-            //numberOfContacts = (int)(numberOfContacts * (1 - Math.Pow(infectionsRate, 0.05)) * Math.Pow(Math.Max(1, day - 1500), 0.01) + 3);
+            numberOfContacts = (int)norm(mu_c, sigma_c); // 접촉자 수 선정
+            numberOfContacts = (int)(numberOfContacts * (1 - Math.Pow(infectionsRate, 0.05)) * Math.Pow(Math.Max(1, day - 1500), 0.01) + 3);
 
 
             // print(numberOfContacts, infectionsRate, numberOfInfections)
@@ -404,8 +407,8 @@ public class Algorithm : MonoBehaviour
 
 
             //// 백신 접종 단계 ////
-            
-            shotPerDay = (int)(norm(mu_s, sigma_s));
+
+            shotPerDay = (int)mu_s;// (norm(mu_s, sigma_s));
 
             int reallyshot;
             // Console.Write("백신 접종량 : ");
@@ -703,7 +706,7 @@ public class Algorithm : MonoBehaviour
             vaccinatedList[day] = numberOfVaccinated;
             deadList[day] = 50000000 - population;
 
-            numberOfContacts = (int)norm(mu_c, sigma_c);
+            numberOfContacts = (int)mu_c; // (int)norm(mu_c, sigma_c);
             numberOfContacts = (int)(numberOfContacts * (1 - Math.Pow(infectionsRate, 0.1)) * Math.Pow(Math.Max(1, day - 1500), 0.2) + 3);
 
 
@@ -773,10 +776,10 @@ public class Algorithm : MonoBehaviour
         fatalityRateList[1] = 0.00104; // 청장년 치명률
         fatalityRateList[2] = 0.034796; // 노인 치명률
         preventionRate = rand.Next(850, 950) / (double)1000;
-        double mu_s, sigma_s;
+        
         mu_s = 400000; // 백신 접종량 평균
         sigma_s = mu_s / 8;
-        shotPerDay = (int)(norm(mu_s, sigma_s));
+        shotPerDay = (int)mu_s;//(norm(mu_s, sigma_s));
         numberOfContacts = 30;
         developPeriod = 150;
 
